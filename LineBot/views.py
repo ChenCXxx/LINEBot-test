@@ -1,0 +1,32 @@
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
+from django.conf import settings
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import MessageEvent, TextMessage, TextSendMessage
+
+# Create your views here.
+line_bot_api = LineBotApi(settings.LINE_BOT_CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(settings.LINE_BOT_CHANNEL_SECRET)
+
+
+@csrf_exempt
+def callback(request):
+    if request.method == 'POST':
+        signature = request.META['HTTP_X_LINE_SIGNATURE']
+        body = request.body.decode('utf-8')
+
+        try:
+            handler.handle(body, signature)
+        except InvalidSignatureError:
+            return HttpResponseForbidden()
+        return HttpResponse('OK')
+    return HttpResponseBadRequest()
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=event.message.text)
+    )
