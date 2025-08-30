@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LIFF Demo</title>
+  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
+</head>
+<body>
+  <h1>LIFF Demo</h1>
+  <button onclick="getProfile()">取得用戶資料</button>
+  <script>
+
+    async function main() {
+      await liff.init({ liffId: "{{ liff_id }}" });
+      console.log('LIFF initialized');
+    }
+    main();
+
+    async function getProfile() {
+      const profile = await liff.getProfile();
+      // 發送到 Django 後端
+      fetch('/linebot/liff/api/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(profile)
+      }).then(res => res.json()).then(data => {
+        alert(JSON.stringify(data));
+      });
+    }
+  </script>
+</body>
+</html>

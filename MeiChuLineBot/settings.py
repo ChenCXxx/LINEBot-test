@@ -20,18 +20,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 import configparser
+import os
 # SECURITY WARNING: keep the secret key used in production secret!
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(os.path.join(BASE_DIR, 'MeiChuLineBot/config.ini'))
 SECRET_KEY = 'django-insecure-#(5x1x%xx5z!q%_tcj*k=f@9c4u8dcx69-t%f44fliib%+01d#'
-LINE_CHANNEL_SECRET = config.get('LINE', 'CHANNEL_SECRET')
-LINE_CHANNEL_ACCESS_TOKEN = config.get('LINE', 'CHANNEL_ACCESS_TOKEN')
-LIFF_ID = config.get('LINE', 'LIFF_ID')
+LINEBOT_CHANNEL_SECRET = config.get('LINE', 'CHANNEL_SECRET')
+LINEBOT_CHANNEL_ACCESS_TOKEN = config.get('LINE', 'CHANNEL_ACCESS_TOKEN')
+LIFF_ID = config.get('LINE', 'LIFF_ID', fallback=None)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = config.get('URL', 'ALLOWED_HOSTS').split(',')
 
 # Application definition
 

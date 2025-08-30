@@ -1,0 +1,7 @@
+[LINE]
+CHANNEL_ACCESS_TOKEN=your_channel_access_token
+CHANNEL_SECRET=your_channel_secret
+LIFF_ID=your_liff_id
+
+[URL]
+ALLOWED_HOSTS=your_allowed_hosts

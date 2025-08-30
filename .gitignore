@@ -1,0 +1,19 @@
+MeiChuLineBot/config.ini
+!MeiChuLineBot/config.ini.template
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# Env
+.env
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.DS_Store
